@@ -92,3 +92,34 @@ function calcularTotalCompra(seleccion) {
         return 0;
     }
 }
+
+function calcularDescuentosYCuotas(totalCompra) {
+    console.log("Inicio de calcularDescuentosYCuotas con totalCompra:", totalCompra);
+    let cuotas = 0;
+    let descuento = 0;
+
+    if(totalCompra >= 65000) {
+        cuotas = 12;
+        descuento = 15;
+    } else if(totalCompra >= 50000) {
+        cuotas = 12;
+        descuento = 10;
+    } else if(totalCompra >= 40000) {
+        cuotas = 6;
+        descuento = 10;
+    } else if(totalCompra >= 30000) {
+        cuotas = 6;
+        descuento = 5;
+    } else if(totalCompra >= 20000) {
+        cuotas = 3;
+        descuento = 5;
+    } else if(totalCompra >= 15000) {
+        cuotas = 3;
+    } else {
+        alert("No hay descuento ni cuotas disponibles para este monto.");
+    }
+
+    console.log(`Descuentos y cuotas calculados: ${descuento}% de descuento, ${cuotas} cuotas`);
+    
+    return { cuotas, descuento };
+}
