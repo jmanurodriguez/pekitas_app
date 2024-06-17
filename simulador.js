@@ -40,6 +40,7 @@
             alert("Debe agregar un nombre");
             nombre = prompt("Ingrese su Nombre");
         }
+        nombre = nombre.toUpperCase();
         console.log("Nombre ingresado:", nombre);
     
         let apellido = prompt("Ingrese su Apellido");
@@ -47,11 +48,13 @@
             alert("Debe agregar un apellido");
             apellido = prompt("Ingrese su Apellido");
         }
+        apellido = apellido.toUpperCase();
         console.log("Apellido ingresado:", apellido);
     
         alert(`Su nombre es ${nombre} ${apellido}`);
         console.log("Fin de obtenerNombreCompleto");
     }
+    
 
     // Definición de productos y precios
 let productos = [
