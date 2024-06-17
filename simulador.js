@@ -32,6 +32,7 @@
     //     cuotas = 3;
     //     Compra Total inferior a 15000
     //     No hay descuento ni cuotas disponibles para este monto.
+// Función para ingresar nombre, apellido y recibir saludo
     function obtenerNombreCompleto() {
         console.log("Inicio de obtenerNombreCompleto");
         alert("¡Hola! Bienvenidos a Pekitas Ecotienda");
@@ -96,6 +97,7 @@ function calcularTotalCompra(seleccion) {
     }
 }
 
+// Función para calcular el total de las cuotas
 function calcularDescuentosYCuotas(totalCompra) {
     console.log("Inicio de calcularDescuentosYCuotas con totalCompra:", totalCompra);
     let cuotas = 0;
