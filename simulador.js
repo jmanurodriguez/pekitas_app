@@ -32,4 +32,23 @@
     //     cuotas = 3;
     //     Compra Total inferior a 15000
     //     No hay descuento ni cuotas disponibles para este monto.
+    function obtenerNombreCompleto() {
+        console.log("Inicio de obtenerNombreCompleto");
+        alert("¡Hola! Bienvenidos a Pekitas Ecotienda");
+        let nombre = prompt("Ingrese su Nombre");
+        while(nombre === "") {
+            alert("Debe agregar un nombre");
+            nombre = prompt("Ingrese su Nombre");
+        }
+        console.log("Nombre ingresado:", nombre);
     
+        let apellido = prompt("Ingrese su Apellido");
+        while(apellido === "") {
+            alert("Debe agregar un apellido");
+            apellido = prompt("Ingrese su Apellido");
+        }
+        console.log("Apellido ingresado:", apellido);
+    
+        alert(`Su nombre es ${nombre} ${apellido}`);
+        console.log("Fin de obtenerNombreCompleto");
+    }
