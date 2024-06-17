@@ -123,3 +123,37 @@ function calcularDescuentosYCuotas(totalCompra) {
     
     return { cuotas, descuento };
 }
+
+
+// Función principal que maneja el flujo de la compra
+function realizarCompra() {
+    console.log("Inicio de realizarCompra");
+    
+    obtenerNombreCompleto();
+    
+    let seguirComprando = true;
+    let totalCompra = 0;
+
+    while(seguirComprando) {
+        let seleccion = seleccionarProducto();
+        
+        if(seleccion === 0) {
+            seguirComprando = false;
+            console.log("Finalizar compra seleccionado");
+        } else {
+            totalCompra += calcularTotalCompra(seleccion);
+            console.log("Total acumulado de la compra:", totalCompra);
+        }
+        
+        if(!seguirComprando) {
+            let { cuotas, descuento } = calcularDescuentosYCuotas(totalCompra);
+            let montoFinal = totalCompra - (totalCompra * descuento / 100);
+            alert(`Total de la compra: $${totalCompra}\nDescuento: ${descuento}%\nTotal con descuento: $${montoFinal}\nCantidad de cuotas sin interés: ${cuotas}`);
+            console.log(`Resultados finales: Total de la compra: $${totalCompra}, Descuento aplicado: ${descuento}%, Total con descuento: $${montoFinal}, Cuotas: ${cuotas}`);
+        }
+    }
+    console.log("Fin de realizarCompra");
+}
+
+// Iniciar la compra
+realizarCompra();
