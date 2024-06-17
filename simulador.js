@@ -52,3 +52,31 @@
         alert(`Su nombre es ${nombre} ${apellido}`);
         console.log("Fin de obtenerNombreCompleto");
     }
+
+    // Definición de productos y precios
+let productos = [
+    { nombre: "Desodorante Solido", precio: 2000 },
+    { nombre: "Balsamo Labial", precio: 3000 },
+    { nombre: "Serúm Capilar", precio: 3500 },
+    { nombre: "Jaón Natural", precio: 4000 },
+    { nombre: "Mouse Corporal", precio: 4500 },
+    { nombre: "Tonico Facial", precio: 5200 },
+    { nombre: "Sales de Baño", precio: 7000 },
+    { nombre: "Jabon Batido", precio: 8700 },
+];
+
+// Función para mostrar los productos y obtener la elección del usuario
+function seleccionarProducto() {
+    console.log("Inicio de seleccionarProducto");
+    let mensaje = "Qué producto desea adquirir?";
+    for(let i = 0; i < productos.length; i++) {
+        mensaje += `\n${i + 1}. ${productos[i].nombre}`;
+    }
+    
+    let compra = prompt(mensaje + "\n0. Finalizar compra");
+    if(compra > 0 && compra <= productos.length) {
+        alert("Producto agregado correctamente!");
+    }
+    console.log("Producto seleccionado:", compra);
+    return Number(compra);
+}
