@@ -80,3 +80,15 @@ function seleccionarProducto() {
     console.log("Producto seleccionado:", compra);
     return Number(compra);
 }
+
+// Función para calcular el total de la compra
+function calcularTotalCompra(seleccion) {
+    console.log("Inicio de calcularTotalCompra con selección:", seleccion);
+    if (seleccion >= 1 && seleccion <= productos.length) {
+        console.log("Precio del producto seleccionado:", productos[seleccion - 1].precio);
+        return productos[seleccion - 1].precio;
+    } else {
+        alert("Opción no válida, intente de nuevo.");
+        return 0;
+    }
+}
