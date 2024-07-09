@@ -1,63 +1,39 @@
-//Simulador de compra para Pekitas Ecotienda
+// Simulador de compra para Pekitas Ecotienda
 
 // Nombre y valor de los productos
 
-    //  nombre: "Desodorante Solido", precio: 2000 ,
-    // nombre: "Balsamo Labial", precio: 3000 ,
-    //  nombre: "Serúm Capilar", precio: 3500 ,
-    //  nombre: "Jaón Natural", precio: 4000 ,
-    //  nombre: "Mouse Corporal", precio: 4500 ,
-    //  nombre: "Tonico Facial", precio: 5200 ,
-    // nombre: "Sales de Baño", precio: 7000 ,
-    // nombre: "Jabon Batido", precio: 8700 ,
+// nombre: "Desodorante Solido", precio: 2000 ,
+// nombre: "Balsamo Labial", precio: 3000 ,
+// nombre: "Serúm Capilar", precio: 3500 ,
+// nombre: "Jaón Natural", precio: 4000 ,
+// nombre: "Mouse Corporal", precio: 4500 ,
+// nombre: "Tonico Facial", precio: 5200 ,
+// nombre: "Sales de Baño", precio: 7000 ,
+// nombre: "Jabon Batido", precio: 8700 ,
 
-
-    //El simulador nos va a dar diferentes descuentos y cuotas dependiendo en monto que gastemos
-    //     Compra Total >= 65000
-    //     cuotas = 12
-    //     descuento = 15
-    //     Compra Total >= 50000
-    //     cuotas = 12;
-    //     descuento = 10
-    //     Compra TTotal>= 40000 
-    //     cuotas = 6;
-    //     descuento = 10;
-    //     Compra Total >= 30000
-    //     cuotas = 6;
-    //     descuento = 5;
-    //     Compra Total >= 20000
-    //     cuotas = 3;
-    //     descuento = 5;
-    //     Compra Total >= 15000
-    //     cuotas = 3;
-    //     Compra Total inferior a 15000
-    //     No hay descuento ni cuotas disponibles para este monto.
-// Función para ingresar nombre, apellido y recibir saludo
-    function obtenerNombreCompleto() {
-        console.log("Inicio de obtenerNombreCompleto");
-        alert("¡Hola! Bienvenidos a Pekitas Ecotienda");
-        let nombre = prompt("Ingrese su Nombre");
-        while(nombre === "") {
-            alert("Debe agregar un nombre");
-            nombre = prompt("Ingrese su Nombre");
-        }
-        nombre = nombre.toUpperCase();
-        console.log("Nombre ingresado:", nombre);
-    
-        let apellido = prompt("Ingrese su Apellido");
-        while(apellido === "") {
-            alert("Debe agregar un apellido");
-            apellido = prompt("Ingrese su Apellido");
-        }
-        apellido = apellido.toUpperCase();
-        console.log("Apellido ingresado:", apellido);
-    
-        alert(`Su nombre es ${nombre} ${apellido}`);
-        console.log("Fin de obtenerNombreCompleto");
+// Saludos y obtención de nombre del usuario
+function obtenerNombreCompleto() {
+    console.log("Inicio de obtenerNombreCompleto");
+    alert("¡Hola! Bienvenidos a Pekitas Ecotienda");
+    let nombre = prompt("Ingrese su Nombre");
+    while(nombre === "") {
+        alert("Debe agregar un nombre");
+        nombre = prompt("Ingrese su Nombre");
     }
-    
+    console.log("Nombre ingresado:", nombre);
 
-    // Definición de productos y precios
+    let apellido = prompt("Ingrese su Apellido");
+    while(apellido === "") {
+        alert("Debe agregar un apellido");
+        apellido = prompt("Ingrese su Apellido");
+    }
+    console.log("Apellido ingresado:", apellido);
+
+    alert(`Su nombre es ${nombre} ${apellido}`);
+    console.log("Fin de obtenerNombreCompleto");
+}
+
+// Definición de productos y precios
 let productos = [
     { nombre: "Desodorante Solido", precio: 2000 },
     { nombre: "Balsamo Labial", precio: 3000 },
@@ -74,12 +50,13 @@ function seleccionarProducto() {
     console.log("Inicio de seleccionarProducto");
     let mensaje = "Qué producto desea adquirir?";
     for(let i = 0; i < productos.length; i++) {
-        mensaje += `\n${i + 1}. ${productos[i].nombre}`;
+        mensaje += `\n${i + 1}. ${productos[i].nombre} - $${productos[i].precio}`;
     }
     
     let compra = prompt(mensaje + "\n0. Finalizar compra");
     if(compra > 0 && compra <= productos.length) {
-        alert("Producto agregado correctamente!");
+        let productoSeleccionado = productos[compra - 1];
+        alert(`Producto: ${productoSeleccionado.nombre}\nPrecio: $${productoSeleccionado.precio}\nProducto agregado correctamente!`);
     }
     console.log("Producto seleccionado:", compra);
     return Number(compra);
@@ -97,7 +74,7 @@ function calcularTotalCompra(seleccion) {
     }
 }
 
-// Función para calcular el total de las cuotas
+// Función para calcular descuentos y cuotas
 function calcularDescuentosYCuotas(totalCompra) {
     console.log("Inicio de calcularDescuentosYCuotas con totalCompra:", totalCompra);
     let cuotas = 0;
@@ -129,6 +106,10 @@ function calcularDescuentosYCuotas(totalCompra) {
     return { cuotas, descuento };
 }
 
+// Función de orden superior para aplicar descuentos
+function aplicarDescuento(total, descuento) {
+    return total - (total * descuento / 100);
+}
 
 // Función principal que maneja el flujo de la compra
 function realizarCompra() {
@@ -136,8 +117,18 @@ function realizarCompra() {
     
     obtenerNombreCompleto();
     
+    alert(`En Pekitas Ecotienda tenemos diferentes descuentos para vos:\n
+    - Si tu compra es igual o superior a $65000: 15% de descuento y 12 cuotas\n
+    - Si tu compra es igual o superior a $50000: 10% de descuento y 12 cuotas\n
+    - Si tu compra es igual o superior a $40000: 10% de descuento y 6 cuotas\n
+    - Si tu compra es igual o superior a $30000: 5% de descuento y 6 cuotas\n
+    - Si tu compra es igual o superior a $20000: 5% de descuento y 3 cuotas\n
+    - Si tu compra es igual o superior a $15000: 3 cuotas\n
+    - Si tu compra es menor a $15000: No tienes descuento ni cuotas disponibles`);
+
     let seguirComprando = true;
     let totalCompra = 0;
+    let cantidades = new Array(productos.length).fill(0);
 
     while(seguirComprando) {
         let seleccion = seleccionarProducto();
@@ -147,16 +138,26 @@ function realizarCompra() {
             console.log("Finalizar compra seleccionado");
         } else {
             totalCompra += calcularTotalCompra(seleccion);
+            cantidades[seleccion - 1]++;
+            alert(`Total acumulado de la compra: $${totalCompra}`);
             console.log("Total acumulado de la compra:", totalCompra);
         }
-        
-        if(!seguirComprando) {
-            let { cuotas, descuento } = calcularDescuentosYCuotas(totalCompra);
-            let montoFinal = totalCompra - (totalCompra * descuento / 100);
-            alert(`Total de la compra: $${totalCompra}\nDescuento: ${descuento}%\nTotal con descuento: $${montoFinal}\nCantidad de cuotas sin interés: ${cuotas}`);
-            console.log(`Resultados finales: Total de la compra: $${totalCompra}, Descuento aplicado: ${descuento}%, Total con descuento: $${montoFinal}, Cuotas: ${cuotas}`);
+    }
+
+    let { cuotas, descuento } = calcularDescuentosYCuotas(totalCompra);
+    let montoFinal = aplicarDescuento(totalCompra, descuento);
+
+    let resumenCompra = "Resumen de la compra:\n";
+    for(let i = 0; i < productos.length; i++) {
+        if(cantidades[i] > 0) {
+            resumenCompra += `${productos[i].nombre}: ${cantidades[i]} unidad(es)\n`;
         }
     }
+    resumenCompra += `\nTotal de la compra: $${totalCompra}\nDescuento: ${descuento}%\nTotal con descuento: $${montoFinal}\nCantidad de cuotas sin interés: ${cuotas}`;
+
+    alert(resumenCompra);
+    console.log("Resumen de la compra:", resumenCompra);
+    
     console.log("Fin de realizarCompra");
 }
 
