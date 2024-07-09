@@ -5,12 +5,17 @@ let productos = [
     { nombre: "Desodorante Solido", precio: 2000 },
     { nombre: "Balsamo Labial", precio: 3000 },
     { nombre: "Serúm Capilar", precio: 3500 },
-    { nombre: "Jaón Natural", precio: 4000 },
+    { nombre: "Jabón Natural", precio: 4000 },
     { nombre: "Mouse Corporal", precio: 4500 },
     { nombre: "Tonico Facial", precio: 5200 },
     { nombre: "Sales de Baño", precio: 7000 },
     { nombre: "Jabon Batido", precio: 8700 },
 ];
+
+// Función para capitalizar la primera letra de un nombre
+function capitalizarPrimeraLetra(texto) {
+    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+}
 
 // Función para mostrar un mensaje de bienvenida y obtener el nombre del usuario
 function obtenerNombreCompleto() {
@@ -27,6 +32,9 @@ function obtenerNombreCompleto() {
         alert("Debe agregar un apellido");
         apellido = prompt("Ingrese su Apellido").trim();
     }
+
+    nombre = capitalizarPrimeraLetra(nombre);
+    apellido = capitalizarPrimeraLetra(apellido);
 
     alert(`Su nombre es ${nombre} ${apellido}`);
     console.log("Fin de obtenerNombreCompleto");
@@ -75,6 +83,13 @@ function calcularDescuentosYCuotas(totalCompra) {
 // Función de orden superior para aplicar descuentos
 const aplicarDescuento = (total, descuento) => total - (total * descuento / 100);
 
+// Función para mostrar los productos comprados y las cantidades
+function mostrarResumenCompra(cantidades) {
+    return productos.map((producto, i) => cantidades[i] > 0 ? `${i + 1}. ${producto.nombre}: ${cantidades[i]} unidad(es)` : '')
+        .filter(linea => linea)
+        .join('\n');
+}
+
 // Función principal que maneja el flujo de la compra
 function realizarCompra() {
     console.log("Inicio de realizarCompra");
@@ -98,7 +113,22 @@ function realizarCompra() {
         let seleccion = seleccionarProducto();
         
         if (seleccion === 0) {
-            seguirComprando = false;
+            let confirmacion = prompt("¿Desea finalizar la compra? Tipee 'Si' para finalizar o 'No' para seguir agregando o borrar productos.");
+            if (confirmacion && confirmacion.toLowerCase() === 'si') {
+                seguirComprando = false;
+            } else if (confirmacion && confirmacion.toLowerCase() === 'no') {
+                let borrarProducto = prompt(`¿Qué producto desea borrar?\n${mostrarResumenCompra(cantidades)}\nIngrese el número del producto para borrarlo (Ej. 8 para Jabon Batido):`);
+                borrarProducto = parseInt(borrarProducto, 10);
+                if (Number.isInteger(borrarProducto) && borrarProducto > 0 && borrarProducto <= productos.length && cantidades[borrarProducto - 1] > 0) {
+                    totalCompra -= productos[borrarProducto - 1].precio;
+                    cantidades[borrarProducto - 1]--;
+                    alert(`Producto ${productos[borrarProducto - 1].nombre} borrado correctamente.`);
+                } else {
+                    alert("Opción no válida o producto no encontrado.");
+                }
+            } else {
+                alert("Opción no válida, intente de nuevo.");
+            }
         } else {
             totalCompra += calcularTotalCompra(seleccion);
             cantidades[seleccion - 1]++;
@@ -109,11 +139,7 @@ function realizarCompra() {
     let { cuotas, descuento } = calcularDescuentosYCuotas(totalCompra);
     let montoFinal = aplicarDescuento(totalCompra, descuento);
 
-    let resumenCompra = "Resumen de la compra:\n" +
-        productos.map((producto, i) => cantidades[i] > 0 ? `${producto.nombre}: ${cantidades[i]} unidad(es)` : '')
-                 .filter(linea => linea)
-                 .join('\n') +
-        `\n\nTotal de la compra: $${totalCompra}\nDescuento: ${descuento}%\nTotal con descuento: $${montoFinal}\nCantidad de cuotas sin interés: ${cuotas}`;
+    let resumenCompra = `Resumen de la compra:\n${mostrarResumenCompra(cantidades)}\n\nTotal de la compra: $${totalCompra}\nDescuento: ${descuento}%\nTotal con descuento: $${montoFinal}\nCantidad de cuotas sin interés: ${cuotas}`;
 
     alert(resumenCompra);
     console.log("Resumen de la compra:", resumenCompra);
